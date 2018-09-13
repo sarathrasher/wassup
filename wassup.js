@@ -6,14 +6,17 @@ let createRandomId = () =>
 const wassups = [
   { date: new Date(),
     content: "Blargh Blargh Blargh",
+    user: 'Pteraducktal',
     id: 1,
   },
   { date: new Date(),
     content: "It's hard to know how to React to this",
+    user: 'Tyranasaurus Duck',
     id: 2,
   },
   { date: new Date(),
     content: "Re🐣🐥",
+    user: 'Velociducktor',
     id: 3,
   },
 ]
@@ -25,7 +28,6 @@ let WassupForm = (props) =>
     h('button', 
       { className: 'submit-button', type: 'submit',
         onClick: () => {
-          event.preventDefault();
           return h(WassupRow, { /*Input Value*/ })
         }
       }, ['Post'])
@@ -35,12 +37,15 @@ let WassupForm = (props) =>
 let WassupRow = (props) => 
   h('li', {className: 'wassup-row' }, [
     h('h4', { className: 'wassup-content' }, props.wassup.content),
-    h('p', { className: 'wassup-date' }, props.wassup.date.toString()),
+    h('p', { className: 'wassup-user' }, `Posted by: ${props.wassup.user}`),
+    h('p', { className: 'wassup-date' }, `Posted on: ${props.wassup.date.toString()}`),
   ])
 
 let WassupList = (props) =>
-  props.wassups.map(wassup =>
-    h('ul', { className: 'wassup-list' }, h(WassupRow, { wassup }))
+  h('ul', 
+  { className: 'wassup-list' }, 
+  props.wassups.map(wassup => 
+    h(WassupRow, { wassup: wassup,  key: wassup.id }))
   );
 
 class Main extends React.Component {
