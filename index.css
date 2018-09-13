@@ -13,10 +13,16 @@
 .wassup-form {
   display: flex;
   flex-direction: column;
-  margin: 5em;
+  margin: 1em 5em 1em 5em;
 }
 
 .wassup-list {
   list-style: none;
-  margin: 0 3em 0 3em;
+  margin: 0 5em 0 2.5em;
+}
+
+.wassup-row {
+  border: 1px solid black;
+  margin: 0.5em;
+  padding: 1em;
 }
