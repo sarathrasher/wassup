@@ -34,7 +34,11 @@ class WassupForm extends React.Component {
       className: 'wassup-form',
       onSubmit: (event) => {
         event.preventDefault();
-        this.props.addWassup(this.state.newWassupValue, this.state.newUserValue)
+        this.props.addWassup(this.state.newWassupValue, this.state.newUserValue);
+        this.setState({
+          newWassupValue: '',
+          newUserValue: ''
+        })
       }
       }, 
       h('textarea', { 
@@ -91,14 +95,14 @@ class Main extends React.Component {
   render() {
     let addWassup = (newWassupContent, newWassupUser) => {
       this.setState({
-        wassups: this.state.wassups.concat([
+        wassups: [
           {
             id: generateId(),
             user: newWassupUser,
             content: newWassupContent,
             date: new Date(),
           }
-        ])
+        ].concat(this.state.wassups)
       })
     }
     return h('div', {className: 'main' }, 
