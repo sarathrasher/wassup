@@ -21,6 +21,7 @@ const wassups = [
 let WassupForm = (props) =>
   h('form', { className: 'wassup-form' }, [
     h('textarea', { className: 'wassup-input', placeholder: 'Wassup?' }),
+    h('input', { className: 'username-input', placeholder: 'Username' }),
     h('button', 
       { className: 'submit-button', type: 'submit',
         onClick: () => {
