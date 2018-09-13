@@ -27,7 +27,8 @@ let WassupForm = (props) =>
     h('input', { className: 'username-input', placeholder: 'Username' }),
     h('button', 
       { className: 'submit-button', type: 'submit',
-        onClick: () => {
+        onClick: (event) => {
+          event.preventDefault();
           return h(WassupRow, { /*Input Value*/ })
         }
       }, ['Post'])
