@@ -3,23 +3,23 @@ const h = React.createElement;
 let generateId = () =>
   Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString();
 
-const wassups = [
-  { date: new Date(),
-    content: "Blargh Blargh Blargh",
-    user: 'Ptera🦆tal',
-    id: generateId(),
-  },
-  { date: new Date(),
-    content: "It's hard to know how to React to this",
-    user: 'Tyranasaurus 🐤',
-    id: generateId(),
-  },
-  { date: new Date(),
-    content: "Re🦆🦆",
-    user: 'Veloci🐥tor',
-    id: generateId(),
-  },
-]
+// const wassups = [
+//   { date: new Date(),
+//     content: "Blargh Blargh Blargh",
+//     user: 'Ptera🦆tal',
+//     id: generateId(),
+//   },
+//   { date: new Date(),
+//     content: "It's hard to know how to React to this",
+//     user: 'Tyranasaurus 🐤',
+//     id: generateId(),
+//   },
+//   { date: new Date(),
+//     content: "Re🦆🦆",
+//     user: 'Veloci🐥tor',
+//     id: generateId(),
+//   },
+// ]
 
 class WassupForm extends React.Component {
   constructor(props) {
@@ -72,7 +72,7 @@ let WassupRow = (props) =>
   <li className='wassup-row'>
     <h4 className='wassup-content'>{props.wassup.content}</h4>
     <p className='wassup-user'>Posted by: {props.wassup.user}</p>
-    <p className='wassup-date'>Posted on: {props.wassup.date.toString()}</p>
+    {/* <p className='wassup-date'>Posted on: {props.wassup.date.toString()}</p> */}
   </li>
 
 
@@ -85,9 +85,20 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      wassups: wassups,
+      wassups: [],
     }
   }
+  
+  componentDidMount() {
+    fetch('http://0.tcp.ngrok.io:18229/wassups.json')
+    .then(res => res.json())
+    .then(wassups => {
+      this.setState({
+        wassups: wassups
+    });
+  });
+  };
+
   render() {
     let addWassup = (newWassupContent, newWassupUser) => {
       this.setState({
@@ -96,7 +107,6 @@ class Main extends React.Component {
             id: generateId(),
             user: newWassupUser,
             content: newWassupContent,
-            date: new Date(),
           }
         ].concat(this.state.wassups)
       })
@@ -107,7 +117,6 @@ class Main extends React.Component {
       <WassupList wassups={this.state.wassups} />,
     </div> 
     }
-
 }
 
 ReactDOM.render(
