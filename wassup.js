@@ -7,17 +7,17 @@ const wassups = [
   { date: new Date(),
     content: "Blargh Blargh Blargh",
     user: 'Ptera🦆tal',
-    id: 1,
+    id: generateId(),
   },
   { date: new Date(),
     content: "It's hard to know how to React to this",
     user: 'Tyranasaurus 🐤',
-    id: 2,
+    id: generateId(),
   },
   { date: new Date(),
     content: "Re🦆🦆",
     user: 'Veloci🐥tor',
-    id: 3,
+    id: generateId(),
   },
 ]
 
@@ -46,6 +46,7 @@ class WassupForm extends React.Component {
         placeholder: 'Wassup?', 
         type: "text",
         value: this.state.newWassupValue,
+        required: true,
         onChange: (event) => {
           this.setState({
             newWassupValue: event.target.value
@@ -56,6 +57,7 @@ class WassupForm extends React.Component {
         className: 'username-input', 
         placeholder: 'Username', 
         type: "text",
+        required: true,
         value: this.state.newUserValue, 
         onChange: (event) => {
           this.setState({
@@ -63,14 +65,14 @@ class WassupForm extends React.Component {
           })
         }
       }),
-      h('button', 
-        { className: 'submit-button', type: 'submit',
+      h('button', { 
+        className: 'submit-button', 
+        type: 'submit',
         }, 'Post')
       );
-    }  
-  }
+  }  
+}
   
-
 let WassupRow = (props) => 
   h('li', {className: 'wassup-row' }, 
     h('h4', { className: 'wassup-content' }, props.wassup.content),
