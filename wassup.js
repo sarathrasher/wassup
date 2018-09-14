@@ -30,62 +30,56 @@ class WassupForm extends React.Component {
     }
   }
   render() {
-    return h('form', { 
-      className: 'wassup-form',
-      onSubmit: (event) => {
+    return <form 
+      className='wassup-form'
+      onSubmit={(event) => {
         event.preventDefault();
         this.props.addWassup(this.state.newWassupValue, this.state.newUserValue);
         this.setState({
           newWassupValue: '',
           newUserValue: ''
         })
-      }
-      }, 
-      h('textarea', { 
-        className: 'wassup-input', 
-        placeholder: 'Wassup?', 
-        type: "text",
-        value: this.state.newWassupValue,
-        required: true,
-        onChange: (event) => {
+      } }
+      >
+      <textarea 
+        className='wassup-input'  
+        placeholder='Wassup?'
+        type="text"
+        value={this.state.newWassupValue}
+        onChange={(event) => {
           this.setState({
             newWassupValue: event.target.value
         })
-      }
-      }),
-      h('input', { 
-        className: 'username-input', 
-        placeholder: 'Username', 
-        type: "text",
-        required: true,
-        value: this.state.newUserValue, 
-        onChange: (event) => {
+      } }
+      />
+      <input 
+        className='username-input'
+        placeholder='Username'
+        type="text"
+        value={this.state.newUserValue} 
+        onChange={(event) => {
           this.setState({
             newUserValue: event.target.value
-          })
-        }
-      }),
-      h('button', { 
-        className: 'submit-button', 
-        type: 'submit',
-        }, 'Post')
-      );
-  }  
-}
+          });
+        }}
+      />, 
+      <button className='submit-button' type='submit'>Post</button>
+      </form>
+    }  
+  }
   
 let WassupRow = (props) => 
-  h('li', {className: 'wassup-row' }, 
-    h('h4', { className: 'wassup-content' }, props.wassup.content),
-    h('p', { className: 'wassup-user' }, `Posted by: ${props.wassup.user}`),
-    h('p', { className: 'wassup-date' }, `Posted on: ${props.wassup.date.toString()}`),
-  )
+  <li className='wassup-row'>
+    <h4 className='wassup-content'>{props.wassup.content}</h4>
+    <p className='wassup-user'>Posted by: {props.wassup.user}</p>
+    <p className='wassup-date'>Posted on: {props.wassup.date.toString()}</p>
+  </li>
+
 
 let WassupList = (props) =>
-  h('ul', 
-  { className: 'wassup-list' }, 
-  props.wassups.map(wassup => 
-    h(WassupRow, { wassup: wassup,  key: wassup.id }))
-  );
+  <ul className='wassup-list'>{props.wassups.map(wassup => 
+  <WassupRow wassup={wassup} key={wassup.id}></WassupRow>)}
+  </ul>
 
 class Main extends React.Component {
   constructor(props) {
@@ -107,12 +101,13 @@ class Main extends React.Component {
         ].concat(this.state.wassups)
       })
     }
-    return h('div', {className: 'main' }, 
-      h('h1', { className: 'header' }, 'Wassup!'),
-      h(WassupForm, { addWassup: addWassup }),
-      h(WassupList, { wassups: this.state.wassups })
-    )
-  }
+    return <div className='main'>
+      <h1 className='header'>Wassup!</h1>,
+      <WassupForm addWassup={addWassup} />,
+      <WassupList wassups={this.state.wassups} />,
+    </div> 
+    }
+
 }
 
 ReactDOM.render(
