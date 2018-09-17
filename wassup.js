@@ -68,7 +68,7 @@ class WassupFormWrapper extends React.Component {
         newUserValue, 
       })
     }
-    return <WassupForm {...this.props} {...this.state} updateWassupInput={updateWassupInput}></WassupForm>
+    return <WassupForm {...this.props} {...this.state} updateWassupInput={updateWassupInput} />
   }
 }
   
@@ -122,11 +122,11 @@ class MainWrapper extends React.Component {
         ].concat(this.state.wassups)
       })
     }
-    return <Main {...this.state} addWassup={addWassup}></Main>
+    return <Main {...this.state} addWassup={addWassup} />
     }
 }
 
 ReactDOM.render(
-  h(MainWrapper), 
+  <MainWrapper />,
   document.querySelector('.app')
 );
