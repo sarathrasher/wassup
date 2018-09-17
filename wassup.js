@@ -21,7 +21,39 @@ let generateId = () =>
 //   },
 // ]
 
-class WassupForm extends React.Component {
+let WassupForm = (props) =>
+    <form 
+      className='wassup-form'
+      onSubmit={(event) => {
+        event.preventDefault();
+        props.addWassup(props.newWassupValue, props.newUserValue);
+
+      } }
+      >
+      <textarea 
+        className='wassup-input'  
+        placeholder='Wassup?'
+        type="text"
+        value={props.newWassupValue}
+        onChange={(event) => {
+          props.updateWassupInput(event.target.value, props.newUserValue)
+        }
+      } 
+      />
+      <input 
+        className='username-input'
+        placeholder='Username'
+        type="text"
+        value={props.newUserValue} 
+        onChange={(event) => {
+            props.updateWassupInput(props.newWassupValue, event.target.value)
+          }
+        }
+      />, 
+      <button className='submit-button' type='submit'>Post</button>
+      </form>
+
+class WassupFormWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,43 +62,15 @@ class WassupForm extends React.Component {
     }
   }
   render() {
-    return <form 
-      className='wassup-form'
-      onSubmit={(event) => {
-        event.preventDefault();
-        this.props.addWassup(this.state.newWassupValue, this.state.newUserValue);
-        this.setState({
-          newWassupValue: '',
-          newUserValue: ''
-        })
-      } }
-      >
-      <textarea 
-        className='wassup-input'  
-        placeholder='Wassup?'
-        type="text"
-        value={this.state.newWassupValue}
-        onChange={(event) => {
-          this.setState({
-            newWassupValue: event.target.value
-        })
-      } }
-      />
-      <input 
-        className='username-input'
-        placeholder='Username'
-        type="text"
-        value={this.state.newUserValue} 
-        onChange={(event) => {
-          this.setState({
-            newUserValue: event.target.value
-          });
-        }}
-      />, 
-      <button className='submit-button' type='submit'>Post</button>
-      </form>
-    }  
+    let updateWassupInput = (newWassupValue, newUserValue) => {
+      this.setState({
+        newWassupValue,
+        newUserValue, 
+      })
+    }
+    return <WassupForm {...this.props} {...this.state} updateWassupInput={updateWassupInput}></WassupForm>
   }
+}
   
 let WassupRow = (props) => 
   <li className='wassup-row'>
@@ -81,7 +85,14 @@ let WassupList = (props) =>
   <WassupRow wassup={wassup} key={wassup.id}></WassupRow>)}
   </ul>
 
-class Main extends React.Component {
+let Main = (props) => 
+    <div className='main'>
+    <h1 className='header'>Wassup!</h1>,
+    <WassupFormWrapper addWassup={props.addWassup} />,
+    <WassupList wassups={props.wassups} />,
+    </div> 
+
+class MainWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -90,7 +101,7 @@ class Main extends React.Component {
   }
   
   componentDidMount() {
-    fetch('http://0.tcp.ngrok.io:18229/wassups.json')
+    fetch('http://0.tcp.ngrok.io:11971/wassups.json')
     .then(res => res.json())
     .then(wassups => {
       this.setState({
@@ -111,15 +122,11 @@ class Main extends React.Component {
         ].concat(this.state.wassups)
       })
     }
-    return <div className='main'>
-      <h1 className='header'>Wassup!</h1>,
-      <WassupForm addWassup={addWassup} />,
-      <WassupList wassups={this.state.wassups} />,
-    </div> 
+    return <Main {...this.state} addWassup={addWassup}></Main>
     }
 }
 
 ReactDOM.render(
-  h(Main), 
+  h(MainWrapper), 
   document.querySelector('.app')
 );
